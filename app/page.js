@@ -4,6 +4,7 @@ import { Menu, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import Footer from "@/components/Footer";
+import Quiz from "@/components/Quiz";
 
 // This is a standalone Header component.
 // You would typically import it into your main layout or page file.
@@ -156,7 +157,8 @@ export default function Header() {
           </div>
         </div>
       </div>
-      <div className="h-[500px]"></div>
+      <Quiz />
+      <div className="h-[300px]"></div>
       <Footer />
     </>
   );

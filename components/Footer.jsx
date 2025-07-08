@@ -27,13 +27,13 @@ export default function Footer() {
   return (
     <div className="relative">
       <div className="absolute bottom-0 left-0 right-0">
-        <Image
+        {/* <Image
           src="/bg6.png"
           width={600}
           height={600}
           alt="background"
           className="mx-auto opacity-60"
-        />
+        /> */}
       </div>
       <footer className="bg-neutral-900/50 text-white backdrop-blur-lg border-t border-white/10">
         <div className="container mx-auto px-6 py-12">
