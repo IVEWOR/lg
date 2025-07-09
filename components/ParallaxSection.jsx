@@ -13,10 +13,10 @@ export default function ParallaxSection({ mousePosition }) {
     0.005;
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-1">
+    <div className="fixed inset-0 pointer-events-none -z-50">
       {/* Single subtle gradient that follows mouse */}
       <div
-        className="absolute inset-0 bg-gradient-to-br from-green-900/3 via-transparent to-green-800/3 -z-10"
+        className="absolute inset-0 bg-gradient-to-br from-green-900/3 via-transparent to-green-800/3 -z-50"
         style={{
           transform: `translate(${mouseParallaxX * 10}px, ${
             mouseParallaxY * 10

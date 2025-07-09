@@ -202,7 +202,7 @@ export default function Header() {
       </div>
 
       {/* Footer */}
-      <div className="md:absolute md:bottom-0 md:left-0 md:right-0 relative z-40">
+      <div className="md:absolute md:bottom-0 md:left-0 md:right-0 relative">
         <ScrollReveal>
           <Footer />
         </ScrollReveal>

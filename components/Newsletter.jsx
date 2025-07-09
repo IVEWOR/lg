@@ -13,6 +13,7 @@ export default function Newsletter() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+    setError("");
 
     if (!email || !/\S+@\S+\.\S+/.test(email)) {
       setError("Please enter a valid email address.");
@@ -20,13 +21,29 @@ export default function Newsletter() {
       return;
     }
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    try {
+      const response = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
 
-    setError("");
-    setIsSubmitted(true);
-    setIsLoading(false);
-    console.log("Submitted email:", email);
+      const data = await response.json();
+
+      if (response.ok) {
+        setIsSubmitted(true);
+        setEmail("");
+      } else {
+        setError(data.error || "Failed to subscribe. Please try again.");
+      }
+    } catch (err) {
+      console.error("Newsletter subscription error:", err);
+      setError("Network error. Please check your connection and try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   if (isSubmitted) {
