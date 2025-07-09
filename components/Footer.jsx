@@ -1,14 +1,10 @@
+"use client";
 import React from "react";
 import { Github, Twitter } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-// This is a standalone Footer component.
-// You would typically import it into your main layout or page file.
-// e.g., import Footer from './Footer';
-
 export default function Footer() {
-  // Footer link data based on the provided screenshot
   const footerLinks = [
     {
       title: "Product",
@@ -26,44 +22,47 @@ export default function Footer() {
 
   return (
     <div className="relative">
-      <div className="absolute bottom-0 left-0 right-0 -z-10">
-        <Image
-          src="/bg6.png"
-          width={600}
-          height={600}
-          alt="background"
-          className="mx-auto opacity-60"
-        />
+      <div className="absolute bottom-0 left-0 right-0 -z-10 overflow-hidden">
+        <div className="transform hover:scale-105 transition-all duration-700 animate-float">
+          <Image
+            src="/bg6.png"
+            width={600}
+            height={600}
+            alt="background"
+            className="mx-auto opacity-20 animate-pulse-green"
+          />
+        </div>
       </div>
-      <footer className="bg-neutral-900/50 text-white backdrop-blur-lg border-t border-white/10">
+
+      <footer className="glass-effect backdrop-blur-lg text-white border-t border-green-500/20 relative">
         <div className="container mx-auto px-6 py-12">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
-            {/* Left Section: Brand Info */}
             <div className="md:col-span-5 lg:col-span-6">
-              <Link href="#" className="flex items-center space-x-2">
-                {/* Using the same style of command icon for consistency */}
-                <Image
-                  src="/linkgraphlogo.png"
-                  width={100}
-                  height={30}
-                  alt="Linkgraph"
-                />
+              <Link href="#" className="flex items-center space-x-2 group">
+                <div className="transform group-hover:scale-105 group-hover:rotate-3 transition-all duration-300 animate-glow-green">
+                  <Image
+                    src="/linkgraphlogo.png"
+                    width={100}
+                    height={30}
+                    alt="Linkgraph"
+                  />
+                </div>
               </Link>
-              <p className="mt-4 max-w-md text-gray-300">
+              <p className="mt-4 max-w-md text-gray-300 leading-relaxed">
                 The ultimate creator hub to showcase your complete digital
                 identity.
               </p>
               <div className="mt-6 flex space-x-4">
                 <Link
                   href="#"
-                  className="text-gray-400 hover:text-white transition-colors"
+                  className="text-gray-400 hover:text-green-400 transition-all duration-300 transform hover:scale-110 hover:-translate-y-1 p-2 rounded-lg hover:bg-green-500/10"
                 >
                   <span className="sr-only">GitHub</span>
                   <Github className="h-6 w-6" />
                 </Link>
                 <Link
                   href="#"
-                  className="text-gray-400 hover:text-white transition-colors"
+                  className="text-gray-400 hover:text-green-400 transition-all duration-300 transform hover:scale-110 hover:-translate-y-1 p-2 rounded-lg hover:bg-green-500/10"
                 >
                   <span className="sr-only">Twitter</span>
                   <Twitter className="h-6 w-6" />
@@ -71,21 +70,26 @@ export default function Footer() {
               </div>
             </div>
 
-            {/* Right Section: Links */}
             <div className="md:col-span-7 lg:col-span-6 grid grid-cols-2 sm:grid-cols-3 gap-8">
-              {footerLinks.map((column) => (
-                <div key={column.title}>
-                  <h3 className="font-semibold tracking-wider uppercase text-gray-200">
+              {footerLinks.map((column, columnIndex) => (
+                <div key={column.title} className="space-y-4">
+                  <h3 className="font-semibold tracking-wider uppercase text-green-400 text-sm">
                     {column.title}
                   </h3>
-                  <ul className="mt-4 space-y-3">
-                    {column.links.map((link) => (
+                  <ul className="space-y-3">
+                    {column.links.map((link, linkIndex) => (
                       <li key={link}>
                         <Link
                           href="#"
-                          className="text-gray-400 hover:text-white transition-colors"
+                          className="text-gray-400 hover:text-green-400 transition-all duration-300 transform hover:translate-x-2 inline-block relative group"
+                          style={{
+                            animationDelay: `${
+                              (columnIndex * 3 + linkIndex) * 0.1
+                            }s`,
+                          }}
                         >
                           {link}
+                          <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-green-500 to-green-400 transition-all duration-300 group-hover:w-full"></span>
                         </Link>
                       </li>
                     ))}
@@ -95,9 +99,8 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Bottom Section: Copyright */}
-          <div className="mt-12 pt-8 border-t border-white/10 text-center text-gray-400">
-            <p>
+          <div className="mt-6 pt-6 border-t border-green-500/20 text-center text-gray-400">
+            <p className="transition-all duration-300 hover:text-green-400 text-sm">
               &copy; {new Date().getFullYear()} LinkGraph. All rights reserved.
             </p>
           </div>

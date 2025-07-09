@@ -4,117 +4,136 @@ import { Menu, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import Footer from "@/components/Footer";
-import Quiz from "@/components/Quiz";
 import Newsletter from "@/components/Newsletter";
-
-// This is a standalone Header component.
-// You would typically import it into your main layout or page file.
-// e.g., import Header from './Header';
+import AnimatedBackground from "@/components/AnimatedBackground";
+import MouseFollower from "@/components/MouseFollower";
+import ScrollReveal from "@/components/ScrollReveal";
+import ParallaxSection from "@/components/ParallaxSection";
 
 export default function Header() {
-  // State to manage the mobile menu's visibility
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  // State to manage header visibility on scroll
   const [isScrolled, setIsScrolled] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
-  // Effect to handle scroll events for showing/hiding the header
   useEffect(() => {
     const handleScroll = () => {
-      // Set scrolled state if user scrolls down more than 10px
       setIsScrolled(window.scrollY > 10);
     };
-    // Add scroll event listener
     window.addEventListener("scroll", handleScroll);
-    // Cleanup function to remove the event listener
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Effect to prevent scrolling when the mobile menu is open
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
+
   useEffect(() => {
     if (isMenuOpen) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "auto";
     }
-    // Cleanup function to restore scrolling
     return () => {
       document.body.style.overflow = "auto";
     };
   }, [isMenuOpen]);
 
-  // Navigation links data
   const navLinks = [
     { name: "Blog", href: "#" },
     { name: "Profile", href: "#" },
   ];
 
   return (
-    <div className="min-h-screen">
-      {/* Main Header for Desktop */}
-      <div className="sticky top-0 z-10">
-        <header className="max-w-full">
-          <nav className="bg-neutral-900/70 backdrop-blur-lg border-b border-b-white/10 shadow-lg">
-            <div className="container mx-auto flex items-center justify-between h-18 px-8">
-              {/* Logo */}
-              <Link href="#" className="flex items-center space-x-2 text-white">
-                <Image
-                  src="/linkgraphlogo.png"
-                  width={100}
-                  height={30}
-                  alt="Linkgraph"
-                />
-              </Link>
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Animated Background */}
+      <AnimatedBackground />
 
-              {/* Desktop Navigation Links (hidden on mobile) */}
-              <div className="hidden md:flex items-center space-x-4">
-                {navLinks.slice(0, 5).map(
-                  (
-                    link // Show first 5 links
-                  ) => (
+      {/* Mouse Follower */}
+      <MouseFollower mousePosition={mousePosition} />
+
+      {/* Parallax Background Elements */}
+      <ParallaxSection mousePosition={mousePosition} />
+
+      {/* Main Header for Desktop */}
+      <div className="sticky top-0 z-50">
+        <ScrollReveal>
+          <header className="max-w-full">
+            <nav
+              className={`glass-effect border-b border-green-500/20 shadow-lg transition-all duration-500 ${
+                isScrolled ? "glass-effect-green" : "glass-effect"
+              }`}
+            >
+              <div className="container mx-auto flex items-center justify-between h-18 px-8">
+                {/* Logo */}
+                <Link
+                  href="#"
+                  className="flex items-center space-x-2 text-white group"
+                >
+                  <div className="transform transition-all duration-300 group-hover:scale-105 group-hover:rotate-3 animate-glow-green">
+                    <Image
+                      src="/linkgraphlogo.png"
+                      width={100}
+                      height={30}
+                      alt="Linkgraph"
+                    />
+                  </div>
+                </Link>
+
+                {/* Desktop Navigation Links */}
+                <div className="hidden md:flex items-center space-x-4">
+                  {navLinks.slice(0, 5).map((link, index) => (
                     <Link
                       key={link.name}
                       href={link.href}
-                      className="text-sm font-medium text-gray-300 hover:text-white transition-colors"
+                      className="text-sm font-medium text-gray-300 hover:text-green-400 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 relative group"
+                      style={{
+                        animationDelay: `${index * 0.1}s`,
+                        animation: "fadeInUp 0.6s ease-out forwards",
+                      }}
                     >
                       {link.name}
+                      <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-green-500 to-green-400 transition-all duration-300 group-hover:w-full"></span>
                     </Link>
-                  )
-                )}
-              </div>
+                  ))}
+                </div>
 
-              {/* Right side buttons (hidden on mobile) */}
-              <div className="hidden md:flex items-center space-x-2">
-                <Link
-                  href="#"
-                  className="bg-white text-black text-sm font-semibold px-4 py-1.5 rounded-xl hover:bg-gray-200 transition-colors"
-                >
-                  Sign In
-                </Link>
-              </div>
+                {/* Right side buttons */}
+                <div className="hidden md:flex items-center space-x-2">
+                  <Link
+                    href="#"
+                    className="bg-gradient-to-r from-green-500 to-green-600 text-white text-sm font-semibold px-4 py-1.5 rounded-xl hover:from-green-600 hover:to-green-700 transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-green-500/20 animate-glow-green"
+                  >
+                    Sign In
+                  </Link>
+                </div>
 
-              {/* Mobile Menu Button */}
-              <div className="md:hidden">
-                <button
-                  onClick={() => setIsMenuOpen(true)}
-                  className="text-white p-2"
-                >
-                  <span className="sr-only">Open menu</span>
-                  <Menu className="h-6 w-6" />
-                </button>
+                {/* Mobile Menu Button */}
+                <div className="md:hidden">
+                  <button
+                    onClick={() => setIsMenuOpen(true)}
+                    className="text-white p-2 transition-all duration-300 hover:bg-green-500/10 rounded-lg"
+                  >
+                    <span className="sr-only">Open menu</span>
+                    <Menu className="h-6 w-6 transition-transform duration-300 hover:rotate-90" />
+                  </button>
+                </div>
               </div>
-            </div>
-          </nav>
-        </header>
+            </nav>
+          </header>
+        </ScrollReveal>
 
-        {/* Mobile Menu (Fullscreen Overlay) */}
+        {/* Mobile Menu */}
         <div
-          className={`fixed inset-0 z-50 md:hidden transition-opacity duration-300 ease-in-out ${
-            isMenuOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+          className={`fixed inset-0 z-50 md:hidden transition-all duration-500 backdrop-blur-2xl ease-in-out ${
+            isMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"
           }`}
         >
-          <div className="absolute inset-0 bg-neutral-900/80 backdrop-blur-xl">
+          <div className="absolute inset-0 backdrop-blur-xl bg-transparent">
             <div className="flex flex-col h-full px-8 py-4 mx-auto">
-              {/* Mobile Menu Header */}
               <div className="flex items-center justify-between">
                 <Link
                   href="#"
@@ -129,30 +148,43 @@ export default function Header() {
                 </Link>
                 <button
                   onClick={() => setIsMenuOpen(false)}
-                  className="text-white p-2"
+                  className="text-white p-2 transition-all duration-300 hover:bg-green-500/10 rounded-lg"
                 >
                   <span className="sr-only">Close menu</span>
-                  <X className="h-6 w-6" />
+                  <X className="h-6 w-6 transition-transform duration-300 hover:rotate-90" />
                 </button>
               </div>
 
-              {/* Mobile Navigation Links */}
               <nav className="flex flex-col items-start space-y-6 mt-16">
-                {navLinks.map((link) => (
+                {navLinks.map((link, index) => (
                   <Link
                     key={link.name}
                     href={link.href}
-                    className="text-2xl font-medium text-gray-300 hover:text-white transition-colors"
+                    className={`text-2xl font-medium text-gray-300 hover:text-green-400 transition-all duration-300 transform hover:translate-x-2 ${
+                      isMenuOpen
+                        ? "translate-x-0 opacity-100"
+                        : "-translate-x-4 opacity-0"
+                    }`}
+                    style={{
+                      transitionDelay: isMenuOpen ? `${index * 0.1}s` : "0s",
+                    }}
+                    onClick={() => setIsMenuOpen(false)}
                   >
                     {link.name}
                   </Link>
                 ))}
               </nav>
 
-              <div className="mt-auto border-t border-white/10 pt-6 flex flex-col space-y-4">
+              <div className="mt-auto border-t border-green-500/20 pt-6 flex flex-col space-y-4">
                 <Link
                   href="#"
-                  className="w-full bg-white text-black text-lg font-semibold text-center px-4 py-3 rounded-full hover:bg-gray-200 transition-colors"
+                  className={`w-full bg-gradient-to-r from-green-500 to-green-600 text-white text-lg font-semibold text-center px-4 py-3 rounded-full hover:from-green-600 hover:to-green-700 transition-all duration-300 transform hover:scale-[1.02] ${
+                    isMenuOpen
+                      ? "translate-y-0 opacity-100"
+                      : "translate-y-8 opacity-0"
+                  }`}
+                  style={{ transitionDelay: isMenuOpen ? "0.3s" : "0s" }}
+                  onClick={() => setIsMenuOpen(false)}
                 >
                   Sign In
                 </Link>
@@ -161,11 +193,19 @@ export default function Header() {
           </div>
         </div>
       </div>
-      <div className="mt-30 mb-30 md:mt-50">
-        <Newsletter />
+
+      {/* Newsletter Section */}
+      <div className="mt-30 mb-30 md:mt-50 relative z-40">
+        <ScrollReveal>
+          <Newsletter />
+        </ScrollReveal>
       </div>
-      <div className="md:absolute md:bottom-0 md:left-0 md:right-0">
-        <Footer />
+
+      {/* Footer */}
+      <div className="md:absolute md:bottom-0 md:left-0 md:right-0 relative z-40">
+        <ScrollReveal>
+          <Footer />
+        </ScrollReveal>
       </div>
     </div>
   );
