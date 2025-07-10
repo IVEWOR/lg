@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Github, Twitter } from "lucide-react";
+import { Youtube, Twitter } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -8,15 +8,46 @@ export default function Footer() {
   const footerLinks = [
     {
       title: "Product",
-      links: ["Features", "Pricing", "Examples"],
+      links: [
+        {
+          title: "Features",
+          url: "#",
+        },
+        {
+          title: "Pricing",
+          url: "#",
+        },
+        {
+          title: "Examples",
+          url: "#",
+        },
+      ],
     },
     {
       title: "Resources",
-      links: ["Docs", "Community", "Contact"],
+      links: [
+        {
+          title: "Docs",
+          url: "#",
+        },
+        {
+          title: "Contact",
+          url: "#",
+        },
+      ],
     },
     {
       title: "Legal",
-      links: ["Privacy", "Terms"],
+      links: [
+        {
+          title: "Privacy",
+          url: "/privacy",
+        },
+        {
+          title: "Terms",
+          url: "/terms",
+        },
+      ],
     },
   ];
 
@@ -54,14 +85,14 @@ export default function Footer() {
               </p>
               <div className="mt-6 flex space-x-4">
                 <Link
-                  href="#"
+                  href="https://www.youtube.com/@programmersarealsohuman5909"
                   className="text-gray-400 hover:text-green-400 transition-all duration-300 transform hover:scale-110 hover:-translate-y-1 p-2 rounded-lg hover:bg-green-500/10"
                 >
-                  <span className="sr-only">GitHub</span>
-                  <Github className="h-6 w-6" />
+                  <span className="sr-only">YouTube</span>
+                  <Youtube className="h-6 w-6" />
                 </Link>
                 <Link
-                  href="#"
+                  href="https://x.com/KaiLentit"
                   className="text-gray-400 hover:text-green-400 transition-all duration-300 transform hover:scale-110 hover:-translate-y-1 p-2 rounded-lg hover:bg-green-500/10"
                 >
                   <span className="sr-only">Twitter</span>
@@ -80,7 +111,7 @@ export default function Footer() {
                     {column.links.map((link, linkIndex) => (
                       <li key={link}>
                         <Link
-                          href="#"
+                          href={link.url}
                           className="text-gray-400 hover:text-green-400 transition-all duration-300 transform hover:translate-x-2 inline-block relative group"
                           style={{
                             animationDelay: `${
@@ -88,7 +119,7 @@ export default function Footer() {
                             }s`,
                           }}
                         >
-                          {link}
+                          {link.title}
                           <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-green-500 to-green-400 transition-all duration-300 group-hover:w-full"></span>
                         </Link>
                       </li>

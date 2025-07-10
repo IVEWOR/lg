@@ -123,7 +123,7 @@ export default function Newsletter() {
         </form>
 
         <Link
-          href="#"
+          href="https://linkgraph.net/"
           className="mt-6 text-sm text-gray-400 hover:text-green-400 transition-all duration-300 border-b border-gray-600/50 hover:border-green-400 pb-1"
         >
           Old Linkgraph
